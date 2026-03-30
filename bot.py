@@ -13,12 +13,13 @@ import uuid
 load_dotenv()
 
 TOKEN = os.getenv("BOT_TOKEN")
+BOT_USERNAME = os.getenv("BOT_USERNAME")
 CHANNEL_USERNAME = os.getenv("CHANNEL_USERNAME")
 PRIVATE_CHANNEL_LINK = os.getenv("PRIVATE_CHANNEL_LINK")
 REFERRALS_NEEDED = int(os.getenv("REFERRALS_NEEDED", "5"))
 
-if not TOKEN or not CHANNEL_USERNAME or not PRIVATE_CHANNEL_LINK:
-    raise ValueError("Missing required environment variables: BOT_TOKEN, CHANNEL_USERNAME, PRIVATE_CHANNEL_LINK")
+if not TOKEN or not BOT_USERNAME or not CHANNEL_USERNAME or not PRIVATE_CHANNEL_LINK:
+    raise ValueError("Missing required environment variables: BOT_TOKEN, BOT_USERNAME, CHANNEL_USERNAME, PRIVATE_CHANNEL_LINK")
 
 DB_PATH = "referrals.db"
 
@@ -69,7 +70,7 @@ def get_user(user_id):
 
 def create_user(user_id, username):
     """Create new user with unique invite link"""
-    invite_link = f"https://t.me/{os.getenv('BOT_USERNAME', 'your_bot')}?start={user_id}"
+    invite_link = f"https://t.me/{BOT_USERNAME}?start={user_id}"
     con = sqlite3.connect(DB_PATH)
     try:
         con.execute(
